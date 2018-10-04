@@ -7,7 +7,7 @@
 
 int calChkSum(uint8_t *ptr, uint8_t length);
 int verifyChkSum(uint8_t *ptr, uint8_t length);
-int insertErrCode(uint8_t *src, uint8_t errcode, int len);
+int insertErrCode(uint8_t *src, uint8_t errcode, int position, int len);
 #if 0
 uint8_t StuffData(const uint8_t *ptr, uint8_t length, uint8_t *dst);
 uint8_t UnStuffData(const uint8_t *ptr, uint8_t length, uint8_t *dst);void error(const char *msg);

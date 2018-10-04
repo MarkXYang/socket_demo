@@ -50,13 +50,13 @@ int verifyChkSum(uint8_t *ptr, uint8_t length)
 /*
  * Insert the errocode to the beginning of the buffer for response message
  */
-int insertErrCode(uint8_t *src, uint8_t errcode, int len)
+int insertErrCode(uint8_t *src, uint8_t errcode, int pos, int len)
 {
     int i = 0;
 
-    for(i=len; i>0; i--)
+    for(i=len; i>=pos; i--)
         src[i] = src[i-1];
-    src[0] = errcode;
+    src[pos] = errcode;
     return len+1;
 }
 

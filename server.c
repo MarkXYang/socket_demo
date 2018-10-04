@@ -40,7 +40,7 @@ void* msg_handler(void* param)
 
         if(verifyChkSum(dst, len)) { /* Checksum is wrong */
             dst[1] += 1;
-            len = insertErrCode(dst, ERR_CHKSUM, len);
+            len = insertErrCode(dst, ERR_CHKSUM, 2, len);
             len = calChkSum(dst, len-1);
             len = StuffData(dst, len, buf_cobs);
             write(s, buf_cobs, strlen(buf_cobs));
@@ -48,7 +48,7 @@ void* msg_handler(void* param)
             break;
         } else if (dst[0] != ID_NAD) { /* Not the message to NAD */
             dst[1] += 1;
-            len = insertErrCode(dst, ERR_GROUP_ID, len);
+            len = insertErrCode(dst, ERR_GROUP_ID, 2, len);
             len = calChkSum(dst, len-1);
             len = StuffData(dst, len, buf_cobs);
             write(s, buf_cobs, strlen(buf_cobs));
@@ -59,6 +59,7 @@ void* msg_handler(void* param)
             {
             case ECHO_ETH_REQ:
                 dst[1] += 1;
+                len = insertErrCode(dst, NO_ERROR, 2, len);
                 len = calChkSum(dst, len-1);
 #ifdef DEBUG
                 printf("After calChksum:\n");
@@ -74,7 +75,7 @@ void* msg_handler(void* param)
                 break;
 
             default: /* The message id is out of the range */
-                len = insertErrCode(dst, ERR_MESSAGE_ID, len);
+                len = insertErrCode(dst, ERR_MESSAGE_ID, 2, len);
                 len = calChkSum(dst, len-1);
                 len = StuffData(dst, len, buf_cobs);
                 write(s, buf_cobs, strlen(buf_cobs));

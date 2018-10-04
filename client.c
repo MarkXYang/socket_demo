@@ -16,17 +16,22 @@ int main(int argc, char *argv[])
 {
     int sockfd, portno = PORT_ID;
     struct sockaddr_in serv_addr;
+
+	if(argc < 2) {
+		printf("Usage: %s <ip address>\n", argv[0]);
+		exit(-1);
+	}
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0)
         error("ERROR opening socket");
     bzero(&serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_addr.s_addr = inet_addr(IP_ADDRESS_NAD);
+	serv_addr.sin_addr.s_addr = inet_addr(argv[1]);
     serv_addr.sin_port = htons(portno);
 
     if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) == 0)
     {
-        printf("Client sending 'messange' to server\n");
+        printf("Client send 'messange' to server %s:%d\n", argv[1], portno);
         uint8_t buf[BUF_SIZE];
         uint8_t cobs[BUF_SIZE];
         int len;
@@ -39,10 +44,13 @@ int main(int argc, char *argv[])
 #endif
         if(verifyChkSum(buf, len)) {
             printf("There is error for checksum!\n");
+			exit(-2);
         }
+#ifdef DEBUG
         else {
             printf("Checksum is correct\n");
         }
+#endif
 
 
         len = StuffData(buf, len, cobs);
@@ -72,11 +80,12 @@ int main(int argc, char *argv[])
             printf("There is error for checksum!\n");
         }
         else {
-            if (!buf[2]) {
+            if (buf[2]) {
                 printf("Error with errcode = %d\n", buf[2]);
             } else {
                 buf[len-1] = 0;
-                printf("Got the result from %d is: %s, len is %d, size is %d\n", buf[0], &buf[3], len, sizeof(buf)-3);
+                printf("Got the result from groupID-%d is: %s, len is %d\n",
+						buf[0], &buf[3], len-4);
             }
         }
 

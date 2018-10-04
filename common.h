@@ -1,12 +1,12 @@
-#ifndef _MSGID_H_
-#define _MSGID_H_
+#ifndef _COMMON_H_
+#define _COMMON_H_
 
-#define PORT_ID				8864
-#define IP_ADDRESS_NAD		"10.178.13.65"
+#define PORT_ID				7856
+#define IP_ADDRESS_NAD		"192.168.0.1"
 
 #define BUF_SIZE			1024
 
-#define RESPONSE_SUCCESS 	0
+#define NO_ERROR			0
 #define ERR_CHKSUM			1
 #define ERR_GROUP_ID		2	
 #define ERR_MESSAGE_ID		3
@@ -41,4 +41,4 @@ enum msg_id {
 };
 
 
-#endif  /* #ifndef _MSGID_H_ */
+#endif  /* #ifndef _COMMON_H_*/
