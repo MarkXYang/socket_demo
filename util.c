@@ -12,8 +12,9 @@
  */
 int calChkSum(uint8_t *ptr, uint8_t length)
 {
-    char i;
+    char i = 0;
     uint8_t cs = 0;
+
     for (i=0; i<length; i++) {
         cs += ptr[i];
     }
@@ -29,8 +30,9 @@ int calChkSum(uint8_t *ptr, uint8_t length)
  */
 int verifyChkSum(uint8_t *ptr, uint8_t length)
 {
-    char i;
+    char i = 0;
     uint8_t cs = 0;
+
     for (i=0; i<length-1; i++) {
         cs += ptr[i];
     }
@@ -50,7 +52,9 @@ int verifyChkSum(uint8_t *ptr, uint8_t length)
  */
 int insertErrCode(uint8_t *src, uint8_t errcode, int len)
 {
-    for(int i=len; i>0; i--)
+    int i = 0;
+
+    for(i=len; i>0; i--)
         src[i] = src[i-1];
     src[0] = errcode;
     return len+1;
@@ -80,8 +84,10 @@ void error(const char *msg)
 
 void printArray(uint8_t *p, int code, int len)
 {
+    int i = 0;
+
     printf("Array size=%d\n", len);
-    for(int j=0; j<len; j++) {
+    for(j=0; j<len; j++) {
         switch (code) {
         case CODE_HEX:
             printf("0x%X ", p[j]);
