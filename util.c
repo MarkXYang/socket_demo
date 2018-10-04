@@ -87,22 +87,22 @@ void printArray(uint8_t *p, int code, int len)
     int i = 0;
 
     printf("Array size=%d\n", len);
-    for(j=0; j<len; j++) {
+    for(i=0; i<len; i++) {
         switch (code) {
         case CODE_HEX:
-            printf("0x%X ", p[j]);
+            printf("0x%X ", p[i]);
             break;
         case CODE_DEC:
-            printf("%d ", p[j]);
+            printf("%d ", p[i]);
             break;
         case CODE_OCT:
-            printf("%o ", p[j]);
+            printf("%o ", p[i]);
             break;
         case CODE_BIN:
-            printf(BYTE_TO_BINARY_PATTERN,  BYTE_TO_BINARY(p[j]));
+            printf(BYTE_TO_BINARY_PATTERN,  BYTE_TO_BINARY(p[i]));
             break;
         default:
-            printf("%d ", p[j]);
+            printf("%d ", p[i]);
             break;
         }
     }
