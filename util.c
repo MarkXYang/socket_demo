@@ -109,8 +109,6 @@ void printArray(uint8_t *p, int code, int len)
     printf("\n");
 }
 
-
-
 #endif
 
 

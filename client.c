@@ -11,14 +11,16 @@
 #include "util.h"
 #include "cobs.h"
 #include "common.h"
+#include "nad.h"
 
 int main(int argc, char *argv[])
 {
     int sockfd, portno = PORT_ID;
     struct sockaddr_in serv_addr;
 
-	if(argc < 2) {
-		printf("Usage: %s <ip address>\n", argv[0]);
+	if(argc < 3) {
+		printf("Usage: %s <ip address> <command id> [message body]\n",
+				argv[0]);
 		exit(-1);
 	}
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -36,8 +38,13 @@ int main(int argc, char *argv[])
         uint8_t cobs[BUF_SIZE];
         int len;
         buf[0] = ID_NAD;
-        buf[1] = ECHO_ETH_REQ;
-        strncpy(&buf[2], "AbCdEf", 6);
+        buf[1] = (uint8_t)atoi(argv[2]);
+		if(argc > 3) {
+			len = strlen(argv[3]);
+			strncpy(&buf[2], argv[3], strlen(argv[3]));
+		} else
+			len = 2;
+
         len = calChkSum(buf, 8);
 #ifdef DEBUG
         printf("checksum is:0x%X, len=%d\n", buf[len-1], len);
